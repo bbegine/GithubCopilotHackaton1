@@ -7,9 +7,9 @@ Extend the existing scaffold (Phases 1–8) with a playable maze, PacMan continu
 ---
 
 ### Phase 9: Maze Data & Rendering
-- [ ] 22. Create `src/maps/mazeData.ts` — export a `MAZE_DATA: number[][]` constant (28×36 grid). Values: `0` = empty, `1` = wall, `2` = pellet, `3` = power pellet, `4` = ghost house. Use the classic PacMan layout (symmetrical, tunnel on row 17, ghost pen in center).
-- [ ] 23. Update `BootScene.ts` — add a `power-pellet` texture (larger circle, brighter color) alongside existing textures.
-- [ ] 24. Update `GameScene.create()` — replace the debug grid with maze rendering: iterate `MAZE_DATA`, place `wall` sprites into a Phaser **static physics group** at each `1` cell, place `pellet` / `power-pellet` sprites into a separate static group at `2` / `3` cells. Store groups as scene properties (`this.walls`, `this.pellets`).
+- [x] 22. Create `src/maps/mazeData.ts` — export a `MAZE_DATA: number[][]` constant (28×36 grid). Values: `0` = empty, `1` = wall, `2` = pellet, `3` = power pellet, `4` = ghost house. Use the classic PacMan layout (symmetrical, tunnel on row 17, ghost pen in center).
+- [x] 23. Update `BootScene.ts` — add a `power-pellet` texture (larger circle, brighter color) alongside existing textures.
+- [x] 24. Update `GameScene.create()` — replace the debug grid with maze rendering: iterate `MAZE_DATA`, place `wall` sprites into a Phaser **static physics group** at each `1` cell, place `pellet` / `power-pellet` sprites into a separate static group at `2` / `3` cells. Store groups as scene properties (`this.walls`, `this.pellets`).
 
 ### Phase 10: PacMan Entity & Continuous Movement
 - [ ] 25. Rewrite `src/entities/Player.ts` — export a factory function `createPlayer(scene, x, y): Phaser.Physics.Arcade.Sprite` that creates an arcade sprite using the `player` texture at the given tile coords, sets body size to `TILE_SIZE`, and enables physics.

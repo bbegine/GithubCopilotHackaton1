@@ -15,6 +15,7 @@ export class BootScene extends Phaser.Scene {
     this.createRectTexture("ghost", 0xef5350, 16, 16);
     this.createRectTexture("wall", 0x3949ab, 16, 16);
     this.createPelletTexture("pellet", 6, 0xfff59d);
+    this.createPelletTexture("power-pellet", 10, 0xffff8d);
   }
 
   private createRectTexture(key: string, color: number, width: number, height: number): void {
