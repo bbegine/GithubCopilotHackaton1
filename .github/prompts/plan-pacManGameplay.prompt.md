@@ -12,10 +12,10 @@ Extend the existing scaffold (Phases 1–8) with a playable maze, PacMan continu
 - [x] 24. Update `GameScene.create()` — replace the debug grid with maze rendering: iterate `MAZE_DATA`, place `wall` sprites into a Phaser **static physics group** at each `1` cell, place `pellet` / `power-pellet` sprites into a separate static group at `2` / `3` cells. Store groups as scene properties (`this.walls`, `this.pellets`).
 
 ### Phase 10: PacMan Entity & Continuous Movement
-- [ ] 25. Rewrite `src/entities/Player.ts` — export a factory function `createPlayer(scene, x, y): Phaser.Physics.Arcade.Sprite` that creates an arcade sprite using the `player` texture at the given tile coords, sets body size to `TILE_SIZE`, and enables physics.
-- [ ] 26. Update `GameScene.create()` — spawn PacMan at tile (14, 26) using `createPlayer()`. Store as `this.player`.
-- [ ] 27. Add keyboard input in `GameScene.create()` — create cursor keys via `this.input.keyboard!.createCursorKeys()`. Store as `this.cursors`.
-- [ ] 28. Implement continuous movement in `GameScene.update()`:
+- [x] 25. Rewrite `src/entities/Player.ts` — export a factory function `createPlayer(scene, x, y): Phaser.Physics.Arcade.Sprite` that creates an arcade sprite using the `player` texture at the given tile coords, sets body size to `TILE_SIZE`, and enables physics.
+- [x] 26. Update `GameScene.create()` — spawn PacMan at tile (14, 26) using `createPlayer()`. Store as `this.player`.
+- [x] 27. Add keyboard input in `GameScene.create()` — create cursor keys via `this.input.keyboard!.createCursorKeys()`. Store as `this.cursors`.
+- [x] 28. Implement continuous movement in `GameScene.update()`:
     - On arrow key press, store a `nextDirection` and an active `currentDirection`.
     - Each frame, if PacMan is aligned to the tile grid (position divisible by `TILE_SIZE`): try `nextDirection` first — if no wall collision at the next tile, adopt it as `currentDirection`; otherwise keep `currentDirection`.
     - Set velocity from `currentDirection` × `PLAYER_SPEED`. If the next tile in `currentDirection` is a wall, set velocity to zero (PacMan stops).
