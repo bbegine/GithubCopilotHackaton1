@@ -37,10 +37,10 @@
 - [x] 13. Implement `GameScene.ts` scaffold — render a static placeholder grid and a yellow square for the player. Stub `update()` with no logic yet. Confirm it renders on `npm run dev`.
  
 ### Phase 7: Persistence Layer
-- [ ] 14. Define `ScoreStore` interface: `saveScore(name, score)`, `getTopScores(limit): ScoreEntry[]`
-- [ ] 15. Implement `LocalStorageScoreStore` — read/write JSON array to key `pacman_highscores`
-- [ ] 16. Implement `MemoryScoreStore` — same interface, backed by in-memory array
-- [ ] 17. Add factory function that returns localStorage store if available, else memory fallback
+- [x] 14. Define `ScoreStore` interface: `saveScore(name, score)`, `getTopScores(limit): ScoreEntry[]`
+- [x] 15. Implement `LocalStorageScoreStore` — read/write JSON array to key `pacman_highscores`
+- [x] 16. Implement `MemoryScoreStore` — same interface, backed by in-memory array
+- [x] 17. Add factory function that returns localStorage store if available, else memory fallback
  
 ### Phase 8: Verify Setup
 - [ ] 18. Run `npm run dev` — browser opens with colored canvas and placeholder grid

@@ -1,12 +1,13 @@
 import type { ScoreEntry, ScoreStore } from "./ScoreStore";
 
 export class MemoryScoreStore implements ScoreStore {
-  public saveScore(_name: string, _score: number): void {
-    // Placeholder implementation to be completed in Phase 7.
+  private readonly scores: ScoreEntry[] = [];
+
+  public saveScore(name: string, score: number): void {
+    this.scores.push({ name, score });
   }
 
-  public getTopScores(_limit: number): ScoreEntry[] {
-    // Placeholder implementation to be completed in Phase 7.
-    return [];
+  public getTopScores(limit: number): ScoreEntry[] {
+    return [...this.scores].sort((a, b) => b.score - a.score).slice(0, limit);
   }
 }
