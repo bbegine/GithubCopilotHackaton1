@@ -5,13 +5,13 @@
 ---
  
 ### Phase 1: Project Scaffolding
-- [ ] 1. Create project folder `src/PacMan`
-- [ ] 2. Run `npm init -y`, set name to `pacman`
-- [ ] 3. Install runtime dep: `phaser`
-- [ ] 4. Install dev deps: `typescript`, `vite`, `@types/node`
-- [ ] 5. Create `tsconfig.json` — strict mode, ES2020 target, bundler module resolution
-- [ ] 6. Create `vite.config.ts` — dev server on port 3000
-- [ ] 7. Add npm scripts: `dev` (vite), `build` (vite build), `preview` (vite preview)
+- [x] 1. Create project folder `src/PacMan`
+- [x] 2. Run `npm init -y`, set name to `pacman`
+- [x] 3. Install runtime dep: `phaser`
+- [x] 4. Install dev deps: `typescript`, `vite`, `@types/node`
+- [x] 5. Create `tsconfig.json` — strict mode, ES2020 target, bundler module resolution
+- [x] 6. Create `vite.config.ts` — dev server on port 3000
+- [x] 7. Add npm scripts: `dev` (vite), `build` (vite build), `preview` (vite preview)
  
 ### Phase 2: Entry Point and HTML Shell
 - [ ] 8. Create `index.html` with `<div id="game">` container, title "PacMan"
