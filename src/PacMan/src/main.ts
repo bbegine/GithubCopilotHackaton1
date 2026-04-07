@@ -1,20 +1,6 @@
 import Phaser from "phaser";
-
-class BootScene extends Phaser.Scene {
-  constructor() {
-    super("BootScene");
-  }
-
-  create(): void {
-    this.scene.start("GameScene");
-  }
-}
-
-class GameScene extends Phaser.Scene {
-  constructor() {
-    super("GameScene");
-  }
-}
+import { BootScene } from "./scenes/BootScene";
+import { GameScene } from "./scenes/GameScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,

@@ -31,7 +31,7 @@
 - [x] 11. Create `src/config.ts` with constants: `TILE_SIZE` (16), `MAP_WIDTH` (28), `MAP_HEIGHT` (36), `PLAYER_SPEED` (120), `GHOST_SPEED` (100), `FRIGHTENED_DURATION` (6000ms), `SCATTER_DURATION` (7000ms), `CHASE_DURATION` (20000ms), `MAX_HIGHSCORES` (10)
  
 ### Phase 5: Boot Scene
-- [ ] 12. Implement `BootScene.ts` — generate placeholder textures programmatically (colored rectangles for player, ghosts, walls, pellets) so no external assets are needed to start. Transition to GameScene on complete.
+- [x] 12. Implement `BootScene.ts` — generate placeholder textures programmatically (colored rectangles for player, ghosts, walls, pellets) so no external assets are needed to start. Transition to GameScene on complete.
  
 ### Phase 6: Minimal GameScene Shell
 - [ ] 13. Implement `GameScene.ts` scaffold — render a static placeholder grid and a yellow square for the player. Stub `update()` with no logic yet. Confirm it renders on `npm run dev`.
