@@ -34,7 +34,7 @@
 - [x] 12. Implement `BootScene.ts` — generate placeholder textures programmatically (colored rectangles for player, ghosts, walls, pellets) so no external assets are needed to start. Transition to GameScene on complete.
  
 ### Phase 6: Minimal GameScene Shell
-- [ ] 13. Implement `GameScene.ts` scaffold — render a static placeholder grid and a yellow square for the player. Stub `update()` with no logic yet. Confirm it renders on `npm run dev`.
+- [x] 13. Implement `GameScene.ts` scaffold — render a static placeholder grid and a yellow square for the player. Stub `update()` with no logic yet. Confirm it renders on `npm run dev`.
  
 ### Phase 7: Persistence Layer
 - [ ] 14. Define `ScoreStore` interface: `saveScore(name, score)`, `getTopScores(limit): ScoreEntry[]`
