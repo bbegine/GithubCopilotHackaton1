@@ -18,7 +18,7 @@
 - [x] 9. Create `src/main.ts` — Phaser bootstrap with AUTO renderer, arcade physics, 448x576 canvas (28x36 tiles at 16px), register BootScene + GameScene
  
 ### Phase 3: Folder Structure
-- [ ] 10. Create folder layout:
+- [x] 10. Create folder layout:
   - `src/config.ts` — game constants
   - `src/scenes/` — BootScene, GameScene, GameOverScene (placeholders)
   - `src/entities/` — Player, Ghost (placeholder classes)
