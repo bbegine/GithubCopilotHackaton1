@@ -14,8 +14,8 @@
 - [x] 7. Add npm scripts: `dev` (vite), `build` (vite build), `preview` (vite preview)
  
 ### Phase 2: Entry Point and HTML Shell
-- [ ] 8. Create `index.html` with `<div id="game">` container, title "PacMan"
-- [ ] 9. Create `src/main.ts` — Phaser bootstrap with AUTO renderer, arcade physics, 448x576 canvas (28x36 tiles at 16px), register BootScene + GameScene
+- [x] 8. Create `index.html` with `<div id="game">` container, title "PacMan"
+- [x] 9. Create `src/main.ts` — Phaser bootstrap with AUTO renderer, arcade physics, 448x576 canvas (28x36 tiles at 16px), register BootScene + GameScene
  
 ### Phase 3: Folder Structure
 - [ ] 10. Create folder layout:
