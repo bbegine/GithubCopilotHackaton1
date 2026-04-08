@@ -3,6 +3,7 @@ import {
   FRIGHTENED_DURATION,
   FRIGHTENED_GHOST_SPEED,
   GHOST_EAT_SCORE,
+  GHOST_RELEASE_INTERVAL,
   GHOST_SPEED,
   INITIAL_LIVES,
   PELLET_SCORE,
@@ -34,6 +35,10 @@ export class GameScene extends Phaser.Scene {
   private frightenedUntil = 0;
   private invulnerableUntil = 0;
   private gameFinished = false;
+  private moveFrameCounter = 0;
+  private readonly MOVE_INTERVAL = Math.max(1, Math.ceil((TILE_SIZE / (PLAYER_SPEED / 60)) * 0.5));
+  private ghostReleaseIndex = 0;
+  private nextGhostReleaseAt = 0;
 
   private readonly playerStart = { x: 14, y: 26 };
 
@@ -73,21 +78,26 @@ export class GameScene extends Phaser.Scene {
 
     this.ghosts = this.physics.add.group();
     const ghostSpawns: Array<{ x: number; y: number; color: GhostColor }> = [
-      { x: 13, y: 14, color: "red" },
-      { x: 14, y: 14, color: "pink" },
-      { x: 13, y: 15, color: "cyan" },
-      { x: 14, y: 15, color: "orange" },
+      { x: 12, y: 17, color: "red" },
+      { x: 13, y: 17, color: "pink" },
+      { x: 14, y: 17, color: "cyan" },
+      { x: 15, y: 17, color: "orange" },
     ];
 
-    ghostSpawns.forEach((spawn) => {
+    ghostSpawns.forEach((spawn, index) => {
       const ghost = createGhost(this, spawn.x, spawn.y, spawn.color);
       ghost.setData("spawnX", spawn.x);
       ghost.setData("spawnY", spawn.y);
+      ghost.setData("released", index === 0);
+      ghost.setData("exitingPen", index === 0);
+      ghost.setData("moveCounter", 0);
+      ghost.setData("direction", "none");
       this.ghosts.add(ghost);
     });
 
-    this.physics.add.collider(this.player, this.walls);
-    this.physics.add.collider(this.ghosts, this.walls);
+    this.ghostReleaseIndex = 1;
+    this.nextGhostReleaseAt = this.time.now + GHOST_RELEASE_INTERVAL;
+
     this.physics.add.overlap(this.player, this.pellets, this.collectPellet, undefined, this);
     this.physics.add.overlap(this.player, this.ghosts, this.hitGhost, undefined, this);
 
@@ -108,22 +118,31 @@ export class GameScene extends Phaser.Scene {
       return;
     }
 
-    this.captureDirectionInput();
+    this.releaseGhostsOverTime();
 
-    if (this.isPlayerAlignedToGrid()) {
-      this.snapPlayerToGrid();
+    this.captureDirectionInput();
+    this.snapPlayerToGrid();
+
+    this.moveFrameCounter += 1;
+    if (this.moveFrameCounter >= this.MOVE_INTERVAL) {
+      this.moveFrameCounter = 0;
 
       const { tileX, tileY } = this.getPlayerTile();
+
       if (this.nextDirection !== "none" && this.canMove(tileX, tileY, this.nextDirection)) {
         this.currentDirection = this.nextDirection;
+        this.nextDirection = "none";
       }
 
-      if (this.currentDirection !== "none" && !this.canMove(tileX, tileY, this.currentDirection)) {
-        this.currentDirection = "none";
+      if (this.currentDirection !== "none" && this.canMove(tileX, tileY, this.currentDirection)) {
+        const { dx, dy } = this.directionVector(this.currentDirection);
+        const newX = (tileX + dx) * TILE_SIZE + TILE_SIZE / 2;
+        const newY = (tileY + dy) * TILE_SIZE + TILE_SIZE / 2;
+        this.player.setPosition(newX, newY);
+      } else if (this.currentDirection !== "none") {
+        this.player.setVelocity(0, 0);
       }
     }
-
-    this.applyVelocityFromDirection();
 
     const frightened = this.isFrightenedMode();
     this.ghosts.children.each((child) => {
@@ -205,14 +224,41 @@ export class GameScene extends Phaser.Scene {
       this.resetGhostToSpawn(ghost);
       return true;
     });
+
+    this.ghostReleaseIndex = 1;
+    this.nextGhostReleaseAt = this.time.now + GHOST_RELEASE_INTERVAL;
   }
 
   private resetGhostToSpawn(ghost: Phaser.Physics.Arcade.Sprite): void {
     const spawnX = (ghost.getData("spawnX") as number | undefined) ?? 14;
     const spawnY = (ghost.getData("spawnY") as number | undefined) ?? 14;
     ghost.setPosition(spawnX * TILE_SIZE + TILE_SIZE / 2, spawnY * TILE_SIZE + TILE_SIZE / 2);
-    ghost.setVelocity(0, 0);
+    ghost.setData("released", true);
+    ghost.setData("exitingPen", true);
+    ghost.setData("moveCounter", 0);
     ghost.setData("direction", "none");
+  }
+
+  private releaseGhostsOverTime(): void {
+    if (this.ghostReleaseIndex >= this.ghosts.getLength()) {
+      return;
+    }
+
+    if (this.time.now < this.nextGhostReleaseAt) {
+      return;
+    }
+
+    const children = this.ghosts.getChildren() as Phaser.Physics.Arcade.Sprite[];
+    const ghost = children[this.ghostReleaseIndex];
+    if (ghost) {
+      ghost.setData("released", true);
+      ghost.setData("exitingPen", true);
+      ghost.setData("moveCounter", 0);
+      ghost.setData("direction", "none");
+    }
+
+    this.ghostReleaseIndex += 1;
+    this.nextGhostReleaseAt = this.time.now + GHOST_RELEASE_INTERVAL;
   }
 
   private isFrightenedMode(): boolean {
@@ -260,35 +306,21 @@ export class GameScene extends Phaser.Scene {
   private captureDirectionInput(): void {
     if (Phaser.Input.Keyboard.JustDown(this.cursors.left!)) {
       this.nextDirection = "left";
-      return;
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.right!)) {
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.right!)) {
       this.nextDirection = "right";
-      return;
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.up!)) {
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.up!)) {
       this.nextDirection = "up";
-      return;
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.down!)) {
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.down!)) {
       this.nextDirection = "down";
     }
   }
 
-  private isPlayerAlignedToGrid(): boolean {
-    const x = this.player.x - TILE_SIZE / 2;
-    const y = this.player.y - TILE_SIZE / 2;
-    const epsilon = 1;
 
-    return Math.abs(x % TILE_SIZE) < epsilon && Math.abs(y % TILE_SIZE) < epsilon;
-  }
 
   private snapPlayerToGrid(): void {
-    const { tileX, tileY } = this.getPlayerTile();
-    this.player.setPosition(tileX * TILE_SIZE + TILE_SIZE / 2, tileY * TILE_SIZE + TILE_SIZE / 2);
+    const x = Math.round((this.player.x - TILE_SIZE / 2) / TILE_SIZE);
+    const y = Math.round((this.player.y - TILE_SIZE / 2) / TILE_SIZE);
+    this.player.setPosition(x * TILE_SIZE + TILE_SIZE / 2, y * TILE_SIZE + TILE_SIZE / 2);
   }
 
   private getPlayerTile(): { tileX: number; tileY: number } {
@@ -307,7 +339,17 @@ export class GameScene extends Phaser.Scene {
       return false;
     }
 
-    return MAZE_DATA[nextY][nextX] !== 1;
+    const tile = MAZE_DATA[nextY][nextX];
+    if (tile === 1 || tile === 4) {
+      return false;
+    }
+
+    // Block player from entering ghost pen interior.
+    if (nextX >= 11 && nextX <= 16 && nextY >= 16 && nextY <= 18) {
+      return false;
+    }
+
+    return true;
   }
 
   private directionVector(direction: Direction): { dx: number; dy: number } {
@@ -325,12 +367,5 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
-  private applyVelocityFromDirection(): void {
-    const { dx, dy } = this.directionVector(this.currentDirection);
-    this.player.setVelocity(dx * PLAYER_SPEED, dy * PLAYER_SPEED);
 
-    if (this.currentDirection === "none") {
-      this.player.setVelocity(0, 0);
-    }
-  }
 }

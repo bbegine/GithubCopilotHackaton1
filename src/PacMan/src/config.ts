@@ -14,4 +14,7 @@ export const GHOST_EAT_SCORE = 200;
 export const INITIAL_LIVES = 3;
 export const FRIGHTENED_GHOST_SPEED = 60;
 
+export const GHOST_RELEASE_INTERVAL = 4000;
+export const GHOST_CENTER_BOUNDS = { minX: 10, maxX: 17, minY: 12, maxY: 16 };
+
 export const MAX_HIGHSCORES = 10;
