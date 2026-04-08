@@ -22,22 +22,22 @@ Extend the existing scaffold (Phases 1–8) with a playable maze, PacMan continu
     - Add `this.physics.add.collider(this.player, this.walls)` for hard wall stops.
 
 ### Phase 11: Ghosts & Basic AI
-- [ ] 29. Rewrite `src/entities/Ghost.ts` — export `createGhost(scene, x, y, color): Phaser.Physics.Arcade.Sprite`. BootScene already generates a red `ghost` texture; add 3 more colored ghost textures in BootScene (`ghost-pink` 0xf48fb1, `ghost-cyan` 0x4dd0e1, `ghost-orange` 0xffb74d).
-- [ ] 30. Spawn 4 ghosts in `GameScene.create()` at their pen positions (tiles ~13–14, 14–15 area). Store in a Phaser group `this.ghosts`. Add wall collider for ghosts.
-- [ ] 31. Implement `src/systems/GhostAi.ts` with a simple movement pattern:
+- [x] 29. Rewrite `src/entities/Ghost.ts` — export `createGhost(scene, x, y, color): Phaser.Physics.Arcade.Sprite`. BootScene already generates a red `ghost` texture; add 3 more colored ghost textures in BootScene (`ghost-pink` 0xf48fb1, `ghost-cyan` 0x4dd0e1, `ghost-orange` 0xffb74d).
+- [x] 30. Spawn 4 ghosts in `GameScene.create()` at their pen positions (tiles ~13–14, 14–15 area). Store in a Phaser group `this.ghosts`. Add wall collider for ghosts.
+- [x] 31. Implement `src/systems/GhostAi.ts` with a simple movement pattern:
     - Each ghost picks a random valid direction at each tile-grid-aligned step (no reversing).
     - On scatter mode (timer-based from config `SCATTER_DURATION`): random wandering.
     - On chase mode (`CHASE_DURATION`): bias direction toward PacMan's tile using Manhattan distance.
     - Ghosts cannot move through walls (validated before setting velocity).
-- [ ] 32. Call `GhostAi.update()` for each ghost in `GameScene.update()`.
+- [x] 32. Call `GhostAi.update()` for each ghost in `GameScene.update()`.
 
 ### Phase 12: Pellets, Collisions, Scoring & Win/Lose
-- [ ] 33. Add pellet collection — `this.physics.add.overlap(this.player, this.pellets, collectPellet)`. In `collectPellet`: destroy the pellet sprite, increment score (+10 normal, +50 power pellet).
-- [ ] 34. Add power pellet effect — when a power pellet is collected, set all ghosts to "frightened" mode for `FRIGHTENED_DURATION` ms (change tint to blue, reduce speed, allow PacMan to eat them for +200 points). Reset ghost to pen on eaten.
-- [ ] 35. Add ghost-player collision — `this.physics.add.overlap(this.player, this.ghosts, hitGhost)`. If ghost is frightened → eat ghost. If ghost is normal → lose a life.
-- [ ] 36. Add HUD — render score text and lives count at the top or bottom of the canvas using `this.add.text()`.
-- [ ] 37. Add win condition — when all pellets are collected, show "You Win" text, pause physics, transition to GameOverScene after delay.
-- [ ] 38. Add lose condition — start with 3 lives. On death, respawn PacMan at start tile. On 0 lives, transition to GameOverScene. Save score via `createScoreStore().saveScore()`.
+- [x] 33. Add pellet collection — `this.physics.add.overlap(this.player, this.pellets, collectPellet)`. In `collectPellet`: destroy the pellet sprite, increment score (+10 normal, +50 power pellet).
+- [x] 34. Add power pellet effect — when a power pellet is collected, set all ghosts to "frightened" mode for `FRIGHTENED_DURATION` ms (change tint to blue, reduce speed, allow PacMan to eat them for +200 points). Reset ghost to pen on eaten.
+- [x] 35. Add ghost-player collision — `this.physics.add.overlap(this.player, this.ghosts, hitGhost)`. If ghost is frightened → eat ghost. If ghost is normal → lose a life.
+- [x] 36. Add HUD — render score text and lives count at the top or bottom of the canvas using `this.add.text()`.
+- [x] 37. Add win condition — when all pellets are collected, show "You Win" text, pause physics, transition to GameOverScene after delay.
+- [x] 38. Add lose condition — start with 3 lives. On death, respawn PacMan at start tile. On 0 lives, transition to GameOverScene. Save score via `createScoreStore().saveScore()`.
 
 ---
 

@@ -13,6 +13,9 @@ export class BootScene extends Phaser.Scene {
   private generatePlaceholderTextures(): void {
     this.createRectTexture("player", 0xffeb3b, 16, 16);
     this.createRectTexture("ghost", 0xef5350, 16, 16);
+    this.createRectTexture("ghost-pink", 0xf48fb1, 16, 16);
+    this.createRectTexture("ghost-cyan", 0x4dd0e1, 16, 16);
+    this.createRectTexture("ghost-orange", 0xffb74d, 16, 16);
     this.createRectTexture("wall", 0x3949ab, 16, 16);
     this.createPelletTexture("pellet", 6, 0xfff59d);
     this.createPelletTexture("power-pellet", 10, 0xffff8d);

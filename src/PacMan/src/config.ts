@@ -8,5 +8,10 @@ export const GHOST_SPEED = 100;
 export const FRIGHTENED_DURATION = 6000;
 export const SCATTER_DURATION = 7000;
 export const CHASE_DURATION = 20000;
+export const PELLET_SCORE = 10;
+export const POWER_PELLET_SCORE = 50;
+export const GHOST_EAT_SCORE = 200;
+export const INITIAL_LIVES = 3;
+export const FRIGHTENED_GHOST_SPEED = 60;
 
 export const MAX_HIGHSCORES = 10;
